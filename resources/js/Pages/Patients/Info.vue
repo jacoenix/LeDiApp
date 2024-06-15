@@ -1,0 +1,152 @@
+<script setup>
+import { ref } from 'vue';
+import { usePage, useForm } from '@inertiajs/vue3';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+
+const { props } = usePage();
+const patient = ref(props.patient);
+
+const form = useForm({
+    first_name: patient.value.first_name || '',
+    last_name: patient.value.last_name || '',
+    patient_number: patient.value.patient_number || '',
+    address: patient.value.address || '',
+    birth_date: patient.value.birth_date || '',
+    information: patient.value.information || '',
+    therapy_for: patient.value.therapy_for || '',
+    phone_number: patient.value.phone_number || '',
+    mothers_name: patient.value.mothers_name || '',
+    fathers_name: patient.value.fathers_name || '',
+    parents_email: patient.value.parents_email || '',
+    parents_work: patient.value.parents_work || '',
+    status: patient.value.status || 'active' // Add the status field
+});
+
+const submit = () => {
+    form.put(route('patient.update', patient.value.id), {
+        preserveScroll: true
+    });
+};
+
+const deletePatient = () => {
+    if (confirm('Sind Sie sicher, dass Sie diesen Patienten löschen möchten?')) {
+        form.delete(route('patient.destroy', patient.value.id), {
+            onSuccess: () => {
+                window.location.href = route('dashboard');
+            }
+        });
+    }
+};
+</script>
+
+<template>
+    <AuthenticatedLayout>
+        <div class="py-12">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 bg-white border-b border-gray-200">
+                        <form @submit.prevent="submit">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <!-- First Name -->
+                                <div>
+                                    <label for="first_name" class="block font-medium text-sm text-gray-700">Vorname*</label>
+                                    <input id="first_name" v-model="form.first_name" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                                <!-- Last Name -->
+                                <div>
+                                    <label for="last_name" class="block font-medium text-sm text-gray-700">Nachname*</label>
+                                    <input id="last_name" v-model="form.last_name" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                                <!-- Patient Number -->
+                                <div>
+                                    <label for="patient_number" class="block font-medium text-sm text-gray-700">Patientennummer*</label>
+                                    <input id="patient_number" v-model="form.patient_number" type="number" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                                <!-- Birth Date -->
+                                <div>
+                                    <label for="birth_date" class="block font-medium text-sm text-gray-700">Geburtsdatum</label>
+                                    <input id="birth_date" v-model="form.birth_date" type="date" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                                <!-- Therapy For -->
+                                <div>
+                                    <label for="therapy_for" class="block font-medium text-sm text-gray-700">In Behandlung seit</label>
+                                    <input id="therapy_for" v-model="form.therapy_for" type="date" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                                <!-- Address -->
+                                <div class="col-span-2">
+                                    <label for="address" class="block font-medium text-sm text-gray-700">Adresse</label>
+                                    <input id="address" v-model="form.address" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+
+                                <!-- Mother's Name -->
+                                <div>
+                                    <label for="mothers_name" class="block font-medium text-sm text-gray-700">Name der Mutter</label>
+                                    <input id="mothers_name" v-model="form.mothers_name" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                                <!-- Father's Name -->
+                                <div>
+                                    <label for="fathers_name" class="block font-medium text-sm text-gray-700">Name des Vaters</label>
+                                    <input id="fathers_name" v-model="form.fathers_name" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                                <!-- Phone Number -->
+                                <div>
+                                    <label for="phone_number" class="block font-medium text-sm text-gray-700">Telefonnummer</label>
+                                    <input id="phone_number" v-model="form.phone_number" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                                <!-- Parents' Email -->
+                                <div>
+                                    <label for="parents_email" class="block font-medium text-sm text-gray-700">Email der Eltern</label>
+                                    <input id="parents_email" v-model="form.parents_email" type="email" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                                <!-- Status -->
+
+                                <!-- Parents' Work -->
+                                <div class="col-span-2">
+                                    <label for="parents_work" class="block font-medium text-sm text-gray-700">Beruf der Eltern</label>
+                                    <textarea id="parents_work" v-model="form.parents_work" rows="3" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                                </div>
+                                <!-- Information -->
+                                <div class="col-span-2">
+                                    <label for="information" class="block font-medium text-sm text-gray-700">Information</label>
+                                    <textarea id="information" v-model="form.information" rows="10" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                                </div>
+                                <div class="col-span-2">
+                                    <label for="status" class="block font-medium text-sm text-gray-700">Status</label>
+                                    <select id="status" v-model="form.status" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <option value="active">Aktiv</option>
+                                        <option value="inactive">Inaktiv</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 flex justify-between items-center">
+                                <div class="flex gap-4">
+                                    <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700">Speichern</button>
+                                    <Transition
+                                        enter-active-class="transition ease-in-out"
+                                        enter-from-class="opacity-0"
+                                        leave-active-class="transition ease-in-out"
+                                        leave-to-class="opacity-0"
+                                    >
+                                        <p v-if="form.recentlySuccessful" class="text-sm text-gray-600">Änderungen gespeichert.</p>
+                                    </Transition>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="mt-6 flex justify-end">
+                            <button @click="deletePatient" class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700">Patienten löschen</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </AuthenticatedLayout>
+</template>
+
+<style scoped>
+/* Custom styles */
+</style>
+
