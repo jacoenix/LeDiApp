@@ -15,8 +15,16 @@ const form = useForm({
     mothers_name: '',
     fathers_name: '',
     parents_email: '',
-    parents_work: ''
+    parents_work: '',
+    grade: '',
+    school_postcode: '',
+    school_type: ''
+
+
 });
+
+const schoolTypes = ref(['--------------','Kindergarten', 'Volksschule', 'Mittelschule', 'Gymnasium', 'Polytechnikum', 'Lehre', 'Fachschule', 'HAK', 'HLW', 'HTL', 'Heimunterricht', 'Arbeit']);
+const grades = ref(['--------------','1. Schulstufe', '2. Schulstufe', '3. Schulstufe', '4. Schulstufe', '5. Schulstufe', '6. Schulstufe', '7. Schulstufe', '8. Schulstufe', '9. Schulstufe', '10. Schulstufe', '11. Schulstufe', '12. Schulstufe', '13. Schulstufe']);
 
 const submit = () => {
     form.post(route('patients.store'), {
@@ -48,7 +56,27 @@ const submit = () => {
                                     <input id="patient_number" v-model="form.patient_number" type="number" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 </div>
                             </div>
-
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-3">
+                                <!-- School Type -->
+                                <div>
+                                    <label for="school_type" class="block font-medium text-sm text-gray-700">Schultyp</label>
+                                    <select id="school_type" v-model="form.school_type" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <option v-for="type in schoolTypes" :key="type" :value="type">{{ type }}</option>
+                                    </select>
+                                </div>
+                                <!-- School Grade -->
+                                <div>
+                                    <label for="grade" class="block font-medium text-sm text-gray-700">Schulstufe</label>
+                                    <select id="grade" v-model="form.grade" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <option v-for="grade in grades" :key="grade" :value="grade">{{ grade }}</option>
+                                    </select>
+                                </div>
+                                <!-- School Postal -->
+                                <div>
+                                    <label for="school_postcode" class="block font-medium text-sm text-gray-700">PLZ der Einrichtung</label>
+                                    <input id="school_postcode" v-model="form.school_postcode" type="number" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                            </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                                 <!-- Address -->
                                 <div class="col-span-2">

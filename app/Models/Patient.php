@@ -23,9 +23,21 @@ class Patient extends Model
         'parents_email',
         'parents_work',
         'status',
+        'school_type',
+        'grade',
+        'school_postcode'
     ];
     public function folders()
     {
         return $this->hasMany(Folder::class);
+    }
+
+    public function diagnoses()
+    {
+        return $this->belongsToMany(Diagnosis::class);
+    }
+    public function sessions()
+    {
+        return $this->hasMany(PatientSession::class);
     }
 }

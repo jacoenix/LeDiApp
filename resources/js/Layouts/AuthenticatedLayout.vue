@@ -12,7 +12,7 @@
                         <div class="shrink-0 flex items-center">
                             <Link :href="route('dashboard')" class="flex items-center space-x-4">
                                 <ApplicationLogo class="block h-12 w-auto fill-current text-gray-800" />
-                                <span class="text-2xl font-bold text-gray-800">LeDiApp</span>
+                                <span class="text-3xl font-bold text-gray-800">Ledi</span>
                             </Link>
                         </div>
                         <div class="hidden space-x-6 md:space-x-8 lg:space-x-12 sm:-my-px sm:ml-4 md:ml-10 lg:ml-24 sm:flex">

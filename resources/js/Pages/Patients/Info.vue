@@ -2,9 +2,11 @@
 import { ref } from 'vue';
 import { usePage, useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import MultiSelect from 'primevue/multiselect';
 
 const { props } = usePage();
 const patient = ref(props.patient);
+const diagnoses = ref(props.diagnoses);
 
 const form = useForm({
     first_name: patient.value.first_name || '',
@@ -19,7 +21,11 @@ const form = useForm({
     fathers_name: patient.value.fathers_name || '',
     parents_email: patient.value.parents_email || '',
     parents_work: patient.value.parents_work || '',
-    status: patient.value.status || 'active' // Add the status field
+    status: patient.value.status || 'active',
+    grade: patient.value.grade || '',
+    school_type: patient.value.school_type || '',
+    school_postcode: patient.value.school_postcode || '',
+    diagnosis_ids: patient.value.diagnoses ? patient.value.diagnoses.map(d => d.id) : [],  // Diagnose-IDs als Array
 });
 
 const submit = () => {
@@ -27,6 +33,13 @@ const submit = () => {
         preserveScroll: true
     });
 };
+
+const exportPatient = () => {
+    window.location.href = route('patient.export', patient.value.id);
+};
+
+const schoolTypes = ref(['--------------','Kindergarten', 'Volksschule', 'Mittelschule', 'Gymnasium', 'Polytechnikum', 'Lehre', 'Fachschule', 'HAK', 'HLW', 'HTL', 'Heimunterricht', 'Arbeit']);
+const grades = ref(['--------------','1. Schulstufe', '2. Schulstufe', '3. Schulstufe', '4. Schulstufe', '5. Schulstufe', '6. Schulstufe', '7. Schulstufe', '8. Schulstufe', '9. Schulstufe', '10. Schulstufe', '11. Schulstufe', '12. Schulstufe', '13. Schulstufe']);
 
 const deletePatient = () => {
     if (confirm('Sind Sie sicher, dass Sie diesen Patienten löschen möchten?')) {
@@ -63,8 +76,40 @@ const deletePatient = () => {
                                     <input id="patient_number" v-model="form.patient_number" type="number" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 </div>
                             </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-3">
+                                <!-- School Type -->
+                                <div>
+                                    <label for="school_type" class="block font-medium text-sm text-gray-700">Schultyp</label>
+                                    <select id="school_type" v-model="form.school_type" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <option v-for="type in schoolTypes" :key="type" :value="type">{{ type }}</option>
+                                    </select>
+                                </div>
+                                <!-- School Grade -->
+                                <div>
+                                    <label for="grade" class="block font-medium text-sm text-gray-700">Schulstufe</label>
+                                    <select id="grade" v-model="form.grade" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <option v-for="grade in grades" :key="grade" :value="grade">{{ grade }}</option>
+                                    </select>
+                                </div>
+                                <!-- School Postal -->
+                                <div>
+                                    <label for="school_postcode" class="block font-medium text-sm text-gray-700">PLZ der Einrichtung</label>
+                                    <input id="school_postcode" v-model="form.school_postcode" type="number" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-3">
+                                <!-- Diagnoses -->
+                                <div class="col-span-2 mt-4">
+                                    <label for="diagnosis_ids" class="block font-medium text-sm text-gray-700">Diagnosen</label>
+                                    <MultiSelect
+                                        v-model="form.diagnosis_ids"
+                                        :options="diagnoses"
+                                        option-label="name"
+                                        option-value="id"
+                                        placeholder="Wähle Diagnosen"
+                                        class="w-full border rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    ></MultiSelect>
+                                </div>
                                 <!-- Birth Date -->
                                 <div>
                                     <label for="birth_date" class="block font-medium text-sm text-gray-700">Geburtsdatum</label>
@@ -124,7 +169,7 @@ const deletePatient = () => {
 
                             <div class="mt-6 flex justify-between items-center">
                                 <div class="flex gap-4">
-                                    <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700">Speichern</button>
+                                    <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700">Änderungen speichern</button>
                                     <Transition
                                         enter-active-class="transition ease-in-out"
                                         enter-from-class="opacity-0"
@@ -136,6 +181,9 @@ const deletePatient = () => {
                                 </div>
                             </div>
                         </form>
+                        <div class="mt-6 flex justify-end">
+                            <button @click="exportPatient" class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700">Patientenblatt</button>
+                        </div>
                         <div class="mt-6 flex justify-end">
                             <button @click="deletePatient" class="bg-red-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700">Patienten löschen</button>
                         </div>
@@ -149,4 +197,3 @@ const deletePatient = () => {
 <style scoped>
 /* Custom styles */
 </style>
-

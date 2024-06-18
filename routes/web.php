@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\DocumentsController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PatientSessionController;
@@ -59,6 +60,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('patients/{patient}/sessions/{session}/export', [PatientSessionController::class, 'export'])->name('sessions.export');
 
     Route::get('patients/{patient}/sessions/{session}', [PatientSessionController::class, 'show'])->name('sessions.show');
+
+    Route::resource('diagnoses', DiagnosisController::class);
+
+    Route::get('/patients/{patient}/export', [PatientController::class, 'export'])->name('patient.export');
 
 
 });

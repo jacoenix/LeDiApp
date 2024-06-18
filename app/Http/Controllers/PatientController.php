@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Diagnosis;
 use App\Models\Patient;
 use App\Models\Folder;
+use App\Models\PatientSession;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
+
+
     public function destroy(Patient $patient)
     {
         $patient->delete();
@@ -31,13 +36,20 @@ class PatientController extends Controller
     {
         $inactivePatients = Patient::where('status', 'inactive')->get();
         $activePatients = Patient::where('status', 'active')->get();
+        $diagnoses = Diagnosis::all();  // Alle Diagnosen abrufen
+
+        $patient->load('diagnoses'); // Lade die Diagnosen des Patienten
+
         return Inertia::render('Patients/Info', [
             'patients' => $activePatients,
             'selectedPatient' => $patient,
             'patient' => $patient,
             'inactivePatients' => $inactivePatients,
+            'diagnoses' => $diagnoses,  // Diagnosen an die View übergeben
         ]);
     }
+
+
 
     public function update(Request $request, Patient $patient)
     {
@@ -55,12 +67,19 @@ class PatientController extends Controller
             'parents_email' => 'nullable|string|email|max:255',
             'parents_work' => 'nullable|string',
             'status' => 'required|in:active,inactive',
+            'school_type' => 'nullable|string',
+            'grade' => 'nullable|string',
+            'school_postcode' => 'nullable|integer',
+            'diagnosis_ids' => 'nullable|array',
+            'diagnosis_ids.*' => 'exists:diagnoses,id',
         ]);
 
-        // Update the patient with validated data
         $patient->update($validatedData);
 
-        // Update the folder name if the patient's name has changed
+        if (isset($validatedData['diagnosis_ids'])) {
+            $patient->diagnoses()->sync($validatedData['diagnosis_ids']);
+        }
+
         $folderName = $validatedData['last_name'] . ' ' . $validatedData['first_name'];
         Folder::where('patient_id', $patient->id)
             ->where('parent_id', null)
@@ -70,6 +89,17 @@ class PatientController extends Controller
     }
 
 
+    public function export(Patient $patient)
+    {
+        // Sitzungsanzahl abrufen
+        $sessionsCount = PatientSession::where('patient_id', $patient->id)->count();
+
+        $patient->load('diagnoses'); // Lade die Diagnosen des Patienten
+        $patient->sessions_count = $sessionsCount;
+
+        $pdf = PDF::loadView('pdf.patient', compact('patient'));
+        return $pdf->download($patient->last_name . '_' . $patient->first_name . '.pdf');
+    }
 
     public function create()
     {
@@ -91,6 +121,9 @@ class PatientController extends Controller
             'fathers_name' => 'nullable|string|max:255',
             'parents_email' => 'nullable|string|email|max:255',
             'parents_work' => 'nullable|string',
+            'school_type' => 'nullable|string',
+            'grade' => 'nullable|string',
+            'school_postcode' => 'nullable|integer',
         ]);
 
         // Fügen Sie den Standardstatus 'active' zu den validierten Daten hinzu

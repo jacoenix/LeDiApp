@@ -8,7 +8,7 @@ import { Link } from '@inertiajs/vue3';
             <Link href="/">
                 <img src="https://www.culinaryschools.org/clipart/agriculture/cartoon-sheep.png" alt="Application Logo" class="h-32 w-auto">
             </Link>
-            <span class="text-2xl font-bold text-gray-800 mt-4">LeDiApp</span>
+            <span class="text-4xl font-bold text-gray-800 mt-4">Ledi</span>
         </div>
 
         <div

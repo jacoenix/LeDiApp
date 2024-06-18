@@ -40,13 +40,14 @@ onBeforeUnmount(() => {
                         <div class="shrink-0 flex items-center">
                             <Link :href="route('dashboard')" class="flex items-center space-x-4">
                                 <ApplicationLogo class="block h-12 w-auto fill-current text-gray-800" />
-                                <span class="text-2xl font-bold text-gray-800">LeDiApp</span>
+                                <span class="text-3xl font-bold text-gray-800">Ledi</span>
                             </Link>
                         </div>
                         <div class="hidden space-x-6 md:space-x-8 lg:space-x-12 sm:-my-px sm:ml-4 md:ml-10 lg:ml-24 sm:flex">
                             <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-lg">Dashboard</NavLink>
                             <NavLink :href="route('patients.create')" :active="route().current('patients.create')" class="text-lg">Patienten erstellen</NavLink>
                             <NavLink :href="route('sessions.create')" :active="route().current('sessions.create')" class="text-lg">Sitzung dokumentieren</NavLink>
+                            <NavLink :href="route('diagnoses.index')" :active="route().current('diagnoses.index')" class="text-lg">Diagnosen verwalten</NavLink>
                             <NavLink v-if="selectedPatient" :href="route('patient.info', selectedPatient.id)" :active="route().current('patient.info')" class="text-lg">Informationen</NavLink>
                             <NavLink v-if="selectedPatient" :href="route('patient.documents', selectedPatient.id)" :active="route().current('patient.documents')" class="text-lg">Dokumente</NavLink>
                         </div>
@@ -73,6 +74,7 @@ onBeforeUnmount(() => {
                     <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-lg">Dashboard</ResponsiveNavLink>
                     <ResponsiveNavLink :href="route('patients.create')" :active="route().current('patients.create')" class="text-lg">Patienten erstellen</ResponsiveNavLink>
                     <ResponsiveNavLink :href="route('sessions.create')" :active="route().current('sessions.create')" class="text-lg">Sitzung dokumentieren</ResponsiveNavLink>
+                    <ResponsiveNavLink :href="route('diagnoses.index')" :active="route().current('diagnoses.index')" class="text-lg">Diagnosen verwalten</ResponsiveNavLink>
                     <ResponsiveNavLink v-if="selectedPatient" :href="route('patient.info', selectedPatient.id)" :active="route().current('patient.info')" class="text-lg">Informationen</ResponsiveNavLink>
                     <ResponsiveNavLink v-if="selectedPatient" :href="route('patient.documents', selectedPatient.id)" :active="route().current('patient.documents')" class="text-lg">Dokumente</ResponsiveNavLink>
                 </div>

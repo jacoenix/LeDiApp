@@ -58,10 +58,10 @@
         <p><strong>Datum:</strong> {{ $session->session_date }}</p>
         <p><strong>Sitzungsdauer:</strong> {{ $session->start_time }} - {{ $session->end_time }}</p>
     </div>
+    <br>
     <div class="session-title">
         {{ $session->title }}
     </div>
-    <br>
     <p><strong>Inhalt:</strong></p>
     <p>{{ $session->description }}</p>
 </div>
