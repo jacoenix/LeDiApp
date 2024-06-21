@@ -25,7 +25,8 @@ class Patient extends Model
         'status',
         'school_type',
         'grade',
-        'school_postcode'
+        'school_postcode',
+        'gender'
     ];
     public function folders()
     {

@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { Link, usePage } from '@inertiajs/vue3';
+import {Head, Link, usePage} from '@inertiajs/vue3';
 import axios from 'axios';
 import AuthenticatedLayout
     from '@/Layouts/AuthenticatedLayout.vue';
@@ -191,6 +191,7 @@ const downloadDocument = async (document) => {
 </script>
 <template>
     <AuthenticatedLayout :auth="auth" :selected-patient="selectedPatient" :patients="patients">
+        <Head title="Dokumente verwalten" />
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">

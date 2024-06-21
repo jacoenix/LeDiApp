@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useForm } from '@inertiajs/vue3';
+import {Head, useForm} from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout2.vue';
 
 const form = useForm({
@@ -18,11 +18,12 @@ const form = useForm({
     parents_work: '',
     grade: '',
     school_postcode: '',
-    school_type: ''
+    school_type: '',
+    gender: ''
 
 
 });
-
+const genders = ref(['--------------', 'männlich', 'weiblich', 'divers']);
 const schoolTypes = ref(['--------------','Kindergarten', 'Volksschule', 'Mittelschule', 'Gymnasium', 'Polytechnikum', 'Lehre', 'Fachschule', 'HAK', 'HLW', 'HTL', 'Heimunterricht', 'Arbeit']);
 const grades = ref(['--------------','1. Schulstufe', '2. Schulstufe', '3. Schulstufe', '4. Schulstufe', '5. Schulstufe', '6. Schulstufe', '7. Schulstufe', '8. Schulstufe', '9. Schulstufe', '10. Schulstufe', '11. Schulstufe', '12. Schulstufe', '13. Schulstufe']);
 
@@ -34,12 +35,13 @@ const submit = () => {
 
 <template>
     <AuthenticatedLayout>
+        <Head title="Klient erstellen" />
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <form @submit.prevent="submit">
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                                 <!-- First Name -->
                                 <div>
                                     <label for="first_name" class="block font-medium text-sm text-gray-700">Vorname*</label>
@@ -50,13 +52,20 @@ const submit = () => {
                                     <label for="last_name" class="block font-medium text-sm text-gray-700">Nachname*</label>
                                     <input id="last_name" v-model="form.last_name" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 </div>
+                                <!-- Gender -->
+                                <div>
+                                    <label for="gender" class="block font-medium text-sm text-gray-700">Geschlecht</label>
+                                    <select id="gender" v-model="form.gender" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <option v-for="type in genders" :key="type" :value="type">{{ type }}</option>
+                                    </select>
+                                </div>
                                 <!-- Patient Number -->
                                 <div>
-                                    <label for="patient_number" class="block font-medium text-sm text-gray-700">Patientennummer*</label>
+                                    <label for="patient_number" class="block font-medium text-sm text-gray-700">Klientennummer*</label>
                                     <input id="patient_number" v-model="form.patient_number" type="number" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-3">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
                                 <!-- School Type -->
                                 <div>
                                     <label for="school_type" class="block font-medium text-sm text-gray-700">Schultyp</label>
@@ -127,7 +136,7 @@ const submit = () => {
                             </div>
 
                             <div class="mt-6 flex justify-end">
-                                <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Patient erstellen</button>
+                                <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Klient erstellen</button>
                             </div>
                         </form>
                     </div>

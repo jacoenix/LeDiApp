@@ -1,5 +1,6 @@
 <template>
     <AuthenticatedLayout>
+        <Head title="Sitzungen verwalten" />
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -15,6 +16,9 @@
                                 <button @click="deleteAllSessions" class="ml-4 bg-red-500 text-white p-2 rounded">Alle Sitzungen löschen</button>
                             </div>
                         </div>
+                        <div class="mb-4">
+                            <input v-model="searchQuery" type="text" placeholder="Suche nach Titel..." class="w-full p-2 border rounded">
+                        </div>
                         <div v-for="session in filteredSessions" :key="session.id" class="border rounded p-4 mb-4">
                             <div class="flex justify-between items-center">
                                 <div>
@@ -23,17 +27,17 @@
                                     <p><strong>Zeit:</strong> {{ session.start_time }} - {{ session.end_time }}</p>
                                 </div>
                                 <div class="flex">
-                                    <button @click="openEditModal(session)" class="bg-green-500 text-white p-2 rounded mr-2">
+                                    <button @click="openEditModal(session)" class="bg-green-500 text-white p-2 rounded-lg mr-2 hover:bg-green-700">
                                         <svg class="w-6 h-6" :viewBox="'0 0 24 24'">
                                             <path :d="mdiEye" fill="currentColor" />
                                         </svg>
                                     </button>
-                                    <button @click="deleteSession(session.id)" class="bg-red-500 text-white p-2 rounded">
+                                    <button @click="deleteSession(session.id)" class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-700">
                                         <svg class="w-6 h-6" :viewBox="'0 0 24 24'">
                                             <path :d="mdiDelete" fill="currentColor" />
                                         </svg>
                                     </button>
-                                    <button @click="exportSession(session.id)" class=" bg-yellow-500 text-white p-2 rounded ml-2">
+                                    <button @click="exportSession(session.id)" class="bg-yellow-500 text-white p-2 rounded-lg ml-2 hover:bg-yellow-700">
                                         <svg class="w-6 h-6" :viewBox="'0 0 24 24'">
                                             <path :d="mdiFilePdfBox" fill="currentColor" />
                                         </svg>
@@ -56,8 +60,7 @@
                         </div>
                         <div>
                             <label for="edit_start_time" class="block font-medium text-sm text-gray-700">Startzeit</label>
-                            <input id="edit_start_time" v-model="selectedSession.start_time" type="time" class="mt-1 block w-full rounded-md shadow-sm border
-                            border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                            <input id="edit_start_time" v-model="selectedSession.start_time" type="time" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                         </div>
                         <div>
                             <label for="edit_end_time" class="block font-medium text-sm text-gray-700">Endzeit</label>
@@ -86,7 +89,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { usePage } from '@inertiajs/vue3';
+import {Head, usePage} from '@inertiajs/vue3';
 import axios from 'axios';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { mdiDelete, mdiEye, mdiFilePdfBox } from "@mdi/js";
@@ -96,27 +99,19 @@ const patientsessions = ref(props.patientsessions || []);
 const filterDate = ref('');
 const startDate = ref('');
 const endDate = ref('');
+const searchQuery = ref('');
 const showEditModal = ref(false);
 const selectedSession = ref(null);
 const selectedPatient = ref(props.selectedPatient);
 
 const filteredSessions = computed(() => {
-    if (!startDate.value && !endDate.value) {
-        return patientsessions.value;
-    }
-
     return patientsessions.value.filter(session => {
         const sessionDate = new Date(session.session_date);
-        const start = new Date(startDate.value);
-        const end = new Date(endDate.value);
-
-        if (startDate.value && endDate.value) {
-            return sessionDate >= start && sessionDate <= end;
-        } else if (startDate.value) {
-            return sessionDate >= start;
-        } else if (endDate.value) {
-            return sessionDate <= end;
-        }
+        const start = startDate.value ? new Date(startDate.value) : null;
+        const end = endDate.value ? new Date(endDate.value) : null;
+        const matchesDate = (!start || sessionDate >= start) && (!end || sessionDate <= end);
+        const matchesSearch = session.title.toLowerCase().includes(searchQuery.value.toLowerCase());
+        return matchesDate && matchesSearch;
     });
 });
 
@@ -144,8 +139,6 @@ const deleteAllSessions = async () => {
         alert('Fehler beim Löschen aller Sitzungen');
     }
 };
-
-
 
 const openEditModal = async (session) => {
     try {

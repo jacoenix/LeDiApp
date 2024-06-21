@@ -69,6 +69,7 @@ class PatientController extends Controller
             'status' => 'required|in:active,inactive',
             'school_type' => 'nullable|string',
             'grade' => 'nullable|string',
+            'gender' => 'nullable|string',
             'school_postcode' => 'nullable|integer',
             'diagnosis_ids' => 'nullable|array',
             'diagnosis_ids.*' => 'exists:diagnoses,id',
@@ -123,6 +124,7 @@ class PatientController extends Controller
             'parents_work' => 'nullable|string',
             'school_type' => 'nullable|string',
             'grade' => 'nullable|string',
+            'gender' => 'nullable|string',
             'school_postcode' => 'nullable|integer',
         ]);
 

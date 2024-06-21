@@ -62,8 +62,8 @@
         <h1>Legasthenie & Co.</h1>
     </div>
     <div class="center">
-        <p><strong>Name:</strong> {{ $patient->first_name }} {{ $patient->last_name }}</p>
-        <p><strong>Patientennummer:</strong> {{ $patient->patient_number }}</p>
+        <p><strong>Klient:</strong> {{ $patient->first_name }} {{ $patient->last_name }}</p>
+        <p><strong>Klientennummer:</strong> {{ $patient->patient_number }}</p>
     </div>
 </div>
 
@@ -72,6 +72,7 @@
     <div class="divider"></div>
     <div class="section-content">
         <p><strong>Geburtsdatum:</strong> {{ $patient->birth_date }}</p>
+        <p><strong>Geschlecht:</strong> {{ $patient->gender }}</p>
         <p><strong>Adresse:</strong> {{ $patient->address }}</p>
         <p><strong>Name der Mutter:</strong> {{ $patient->mothers_name }}</p>
         <p><strong>Name des Vaters:</strong> {{ $patient->fathers_name }}</p>

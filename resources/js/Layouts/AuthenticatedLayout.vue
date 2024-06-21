@@ -18,8 +18,9 @@
                         <div class="hidden space-x-6 md:space-x-8 lg:space-x-12 sm:-my-px sm:ml-4 md:ml-10 lg:ml-24 sm:flex">
                             <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-lg">Dashboard</NavLink>
                             <NavLink v-if="selectedPatient" :href="route('patient.info', selectedPatient.id)" :active="route().current('patient.info')" class="text-lg">Informationen</NavLink>
-                            <NavLink v-if="selectedPatient" :href="route('sessions.index', selectedPatient.id)" :active="route().current('sessions.index')" class="text-lg">Sitzungen</NavLink>
                             <NavLink v-if="selectedPatient" :href="route('documents.index', selectedPatient.id)" :active="route().current('documents.index')" class="text-lg">Dokumentenverwaltung</NavLink>
+                            <NavLink v-if="selectedPatient" :href="route('sessions.index', selectedPatient.id)" :active="route().current('sessions.index')" class="text-lg">Sitzungen</NavLink>
+
                         </div>
                     </div>
                     <div class="hidden sm:flex sm:items-center sm:ml-auto">
@@ -43,8 +44,8 @@
                 <div class="pt-2 pb-3 space-y-1">
                     <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-lg">Dashboard</ResponsiveNavLink>
                     <ResponsiveNavLink v-if="selectedPatient" :href="route('patient.info', selectedPatient.id)" :active="route().current('patient.info')" class="text-lg">Informationen</ResponsiveNavLink>
-                    <ResponsiveNavLink v-if="selectedPatient" :href="route('sessions.index', selectedPatient.id)" :active="route().current('sessions.index')" class="text-lg">Sitzungen</ResponsiveNavLink>
                     <ResponsiveNavLink v-if="selectedPatient" :href="route('documents.index', selectedPatient.id)" :active="route().current('documents.index')" class="text-lg">Dokumentenverwaltung</ResponsiveNavLink>
+                    <ResponsiveNavLink v-if="selectedPatient" :href="route('sessions.index', selectedPatient.id)" :active="route().current('sessions.index')" class="text-lg">Sitzungen</ResponsiveNavLink>
                 </div>
                 <div class="pt-4 pb-1 border-t border-gray-200">
                     <div class="px-4">
@@ -64,7 +65,7 @@
                 <div class="relative mb-4">
                     <input
                         type="text"
-                        placeholder="Suche Patienten"
+                        placeholder="Suche Klienten"
                         v-model="searchQuery"
                         class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
@@ -77,7 +78,7 @@
                 <Dropdown class="mt-4">
                     <template #trigger>
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition">
-                            Inaktive Patienten
+                            Inaktive Klienten
                             <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                 <path fill-rule="evenodd" d="M5.293 9.293a1 1 0 011.414 0L10 12.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>

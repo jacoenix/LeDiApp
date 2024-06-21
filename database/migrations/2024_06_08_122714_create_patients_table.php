@@ -28,6 +28,7 @@ return new class extends Migration
             $table->enum('status', ['active', 'inactive'])->default('active'); // Hinzufügen des Status
             $table->string('school_type')->nullable();
             $table->string('grade')->nullable();
+            $table->string('gender')->nullable();
             $table->integer('school_postcode')->nullable();
             $table->timestamps();
         });

@@ -28,8 +28,11 @@ class PatientSessionController extends Controller
     public function create()
     {
         $activePatients = Patient::where('status', 'active')->get();
+        $sessions = PatientSession::with('patient')->orderBy('session_date', 'desc')->get();
         return Inertia::render('Patients/CreateSession', [
             'patients' => $activePatients,
+            'sessions' => $sessions,
+
         ]);
     }
 
@@ -78,7 +81,6 @@ class PatientSessionController extends Controller
         return response()->json($session);
     }
 
-
     public function destroy($patient, PatientSession $session)
     {
         $session->delete();
@@ -90,7 +92,7 @@ class PatientSessionController extends Controller
     {
         $patient = Patient::find($patientId);
         $pdf = PDF::loadView('pdf.session', compact('session', 'patient'));
-        return $pdf->download('Sitzung-' . $patient->patient_number . $session->session_date .'.pdf');
+        return $pdf->download('Klient-' . $patient->patient_number . '-' . $session->session_date .'.pdf');
     }
 
     public function deleteAll(Request $request, $patient)

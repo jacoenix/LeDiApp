@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Patienten</h1>
+        <h1>Klienten</h1>
         <ul>
             <li v-for="patient in patients" :key="patient.id">
                 {{ patient.last_name }} {{ patient.first_name }}

@@ -51,8 +51,8 @@
 </div>
 <div class="content">
     <div class="patient-info">
-        <p><strong>Patient:</strong> {{ $patient->first_name }} {{ $patient->last_name }}</p>
-        <p><strong>Patientennummer:</strong> {{ $patient->patient_number }}</p>
+        <p><strong>Klient:</strong> {{ $patient->first_name }} {{ $patient->last_name }}</p>
+        <p><strong>Klientennummer:</strong> {{ $patient->patient_number }}</p>
     </div>
     <div class="session-info">
         <p><strong>Datum:</strong> {{ $session->session_date }}</p>
