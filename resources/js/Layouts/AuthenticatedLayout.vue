@@ -53,7 +53,7 @@
                         <div class="font-medium text-sm text-gray-500">{{ auth.email }}</div>
                     </div>
                     <div class="mt-3 space-y-1">
-                        <ResponsiveNavLink :href="route('profile.edit')" class="text-lg">Profile</ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('profile.edit')" class="text-lg">Profil</ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('logout')" method="post" as="button" class="text-lg bg-red-500 text-white">Ausloggen</ResponsiveNavLink>
                     </div>
                 </div>
