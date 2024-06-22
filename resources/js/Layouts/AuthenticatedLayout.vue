@@ -20,7 +20,6 @@
                             <NavLink v-if="selectedPatient" :href="route('patient.info', selectedPatient.id)" :active="route().current('patient.info')" class="text-lg">Informationen</NavLink>
                             <NavLink v-if="selectedPatient" :href="route('documents.index', selectedPatient.id)" :active="route().current('documents.index')" class="text-lg">Dokumentenverwaltung</NavLink>
                             <NavLink v-if="selectedPatient" :href="route('sessions.index', selectedPatient.id)" :active="route().current('sessions.index')" class="text-lg">Sitzungen</NavLink>
-
                         </div>
                     </div>
                     <div class="hidden sm:flex sm:items-center sm:ml-auto">
@@ -71,7 +70,7 @@
                     />
                 </div>
                 <ul>
-                    <li v-for="patient in filteredPatients" :key="patient.id" @click="selectPatient(patient)" :class="{'bg-gray-200': selectedPatient && selectedPatient.id === patient.id}">
+                    <li v-for="patient in sortedAndFilteredPatients" :key="patient.id" @click="selectPatient(patient)" :class="{'bg-gray-200': selectedPatient && selectedPatient.id === patient.id}">
                         {{ patient.last_name }} {{ patient.first_name }}
                     </li>
                 </ul>
@@ -86,7 +85,7 @@
                     </template>
                     <template #content>
                         <div class="w-48">
-                            <DropdownLink v-for="patient in inactivePatients" :key="patient.id" :href="route('patient.info', patient.id)">
+                            <DropdownLink v-for="patient in sortedInactivePatients" :key="patient.id" :href="route('patient.info', patient.id)">
                                 {{ patient.last_name }} {{ patient.first_name }}
                             </DropdownLink>
                         </div>
@@ -128,14 +127,37 @@ const selectedPatient = ref(props.selectedPatient || null);
 const auth = ref(props.auth);
 const searchQuery = ref('');
 
-const filteredPatients = computed(() => {
+const sortedAndFilteredPatients = computed(() => {
+    let sortedPatients = patients.value.slice().sort((a, b) => {
+        if (a.last_name < b.last_name) {
+            return -1;
+        }
+        if (a.last_name > b.last_name) {
+            return 1;
+        }
+        return 0;
+    });
+
     if (!searchQuery.value) {
-        return patients.value;
+        return sortedPatients;
     }
-    return patients.value.filter(patient =>
+
+    return sortedPatients.filter(patient =>
         patient.first_name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
         patient.last_name.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
+});
+
+const sortedInactivePatients = computed(() => {
+    return inactivePatients.value.slice().sort((a, b) => {
+        if (a.last_name < b.last_name) {
+            return -1;
+        }
+        if (a.last_name > b.last_name) {
+            return 1;
+        }
+        return 0;
+    });
 });
 
 const selectPatient = (patient) => {

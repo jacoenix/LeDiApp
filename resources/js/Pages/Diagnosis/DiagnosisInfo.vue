@@ -18,7 +18,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="diagnosis in diagnoses" :key="diagnosis.id">
+                            <tr v-for="diagnosis in sortedDiagnoses" :key="diagnosis.id">
                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">{{ diagnosis.name }}</td>
                                 <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300 text-right">
                                     <button @click="openEditModal(diagnosis)" class="text-indigo-600 hover:text-indigo-900"><svg class="w-6 h-6" :viewBox="'0 0 24 24'">
@@ -63,17 +63,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import {Head, usePage} from '@inertiajs/vue3';
+import { ref, computed } from 'vue';
+import { Head, usePage } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout2.vue';
-import {Inertia} from "@inertiajs/inertia";
-import {mdiDelete, mdiPencil} from "@mdi/js";
+import { Inertia } from "@inertiajs/inertia";
+import { mdiDelete, mdiPencil } from "@mdi/js";
 
 const { props } = usePage();
 const diagnoses = ref(props.diagnoses);
 const showCreateModal = ref(false);
 const showEditModal = ref(false);
 const form = ref({ name: '', id: null });
+
+const sortedDiagnoses = computed(() => {
+    return diagnoses.value.slice().sort((a, b) => {
+        if (a.name.toLowerCase() < b.name.toLowerCase()) {
+            return -1;
+        }
+        if (a.name.toLowerCase() > b.name.toLowerCase()) {
+            return 1;
+        }
+        return 0;
+    });
+});
 
 const openEditModal = (diagnosis) => {
     form.value = { name: diagnosis.name, id: diagnosis.id };
