@@ -24,7 +24,7 @@ const form = useForm({
 
 });
 const genders = ref(['--------------', 'männlich', 'weiblich', 'divers']);
-const schoolTypes = ref(['--------------','Kindergarten', 'Volksschule', 'Mittelschule', 'Gymnasium', 'Polytechnikum', 'Lehre', 'Fachschule', 'HAK', 'HLW', 'HTL', 'Heimunterricht', 'Arbeit']);
+const schoolTypes = ref(['--------------','Kindergarten', 'Volksschule', 'Waldorfschule', 'Mittelschule', 'Gymnasium', 'Polytechnikum', 'Lehre', 'Fachschule', 'HAK', 'HLW', 'HTL', 'Heimunterricht', 'Arbeit']);
 const grades = ref(['--------------','1. Schulstufe', '2. Schulstufe', '3. Schulstufe', '4. Schulstufe', '5. Schulstufe', '6. Schulstufe', '7. Schulstufe', '8. Schulstufe', '9. Schulstufe', '10. Schulstufe', '11. Schulstufe', '12. Schulstufe', '13. Schulstufe']);
 
 const submit = () => {
