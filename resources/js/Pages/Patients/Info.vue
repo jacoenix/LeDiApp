@@ -103,8 +103,8 @@ const deletePatient = () => {
                                 </div>
                                 <!-- School Postal -->
                                 <div>
-                                    <label for="school_postcode" class="block font-medium text-sm text-gray-700">PLZ der Einrichtung</label>
-                                    <input id="school_postcode" v-model="form.school_postcode" type="number" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <label for="school_postcode" class="block font-medium text-sm text-gray-700">Ort der Einrichtung</label>
+                                    <input id="school_postcode" v-model="form.school_postcode" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 </div>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-3">

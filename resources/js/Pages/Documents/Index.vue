@@ -1,10 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-import {Head, Link, usePage} from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
-import AuthenticatedLayout
-    from '@/Layouts/AuthenticatedLayout.vue';
-import {mdiDelete, mdiDownload, mdiPencil} from "@mdi/js";
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { mdiDelete, mdiDownload, mdiPencil } from "@mdi/js";
 
 const { props } = usePage();
 const folders = ref(props.folders);
@@ -119,7 +118,11 @@ const createFolder = async () => {
 };
 
 const handleFileChange = (event) => {
-    newDocument.value.file = event.target.files[0];
+    const file = event.target.files[0];
+    if (file) {
+        newDocument.value.file = file;
+        newDocument.value.name = file.name; // Setzt den Namen des Dokuments auf den Dateinamen
+    }
 };
 
 const uploadDocument = async () => {
@@ -185,10 +188,8 @@ const downloadDocument = async (document) => {
         alert('Fehler beim Herunterladen des Dokuments');
     }
 };
-
-
-
 </script>
+
 <template>
     <AuthenticatedLayout :auth="auth" :selected-patient="selectedPatient" :patients="patients">
         <Head title="Dokumente verwalten" />
@@ -283,14 +284,13 @@ const downloadDocument = async (document) => {
             <div class="modal-content bg-white p-6 rounded-lg shadow-lg">
                 <span @click="showDocumentModal = false" class="close absolute top-2 right-4 text-2xl cursor-pointer">&times;</span>
                 <form @submit.prevent="uploadDocument">
-                    <label for="document-name" class="block text-sm font-medium text-gray-700">Dokument Name</label>
-                    <input type="text" v-model="newDocument.name" id="document-name" required class="mt-2 mb-4 p-2 border rounded-md w-full">
                     <label for="document-file" class="block text-sm font-medium text-gray-700">Datei</label>
                     <input type="file" @change="handleFileChange" id="document-file" required class="mt-2 mb-4 p-2 border rounded-md w-full">
                     <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 w-full">Hochladen</button>
                 </form>
             </div>
         </div>
+
         <!-- Ordner umbenennen Modal -->
         <div v-if="showEditFolderModal" class="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div class="modal-content bg-white p-6 rounded-lg shadow-lg">

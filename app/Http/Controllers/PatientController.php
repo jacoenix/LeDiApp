@@ -70,7 +70,7 @@ class PatientController extends Controller
             'school_type' => 'nullable|string',
             'grade' => 'nullable|string',
             'gender' => 'nullable|string',
-            'school_postcode' => 'nullable|integer',
+            'school_postcode' => 'nullable|string',
             'diagnosis_ids' => 'nullable|array',
             'diagnosis_ids.*' => 'exists:diagnoses,id',
         ]);
