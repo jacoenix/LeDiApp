@@ -125,7 +125,7 @@ class PatientController extends Controller
             'school_type' => 'nullable|string',
             'grade' => 'nullable|string',
             'gender' => 'nullable|string',
-            'school_postcode' => 'nullable|integer',
+            'school_postcode' => 'nullable|string',
         ]);
 
         // Fügen Sie den Standardstatus 'active' zu den validierten Daten hinzu
