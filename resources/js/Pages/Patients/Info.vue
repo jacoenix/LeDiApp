@@ -16,6 +16,7 @@ const form = useForm({
     birth_date: patient.value.birth_date || '',
     information: patient.value.information || '',
     therapy_for: patient.value.therapy_for || '',
+    therapy_till: patient.value.therapy_till || '',
     phone_number: patient.value.phone_number || '',
     mothers_name: patient.value.mothers_name || '',
     fathers_name: patient.value.fathers_name || '',
@@ -106,6 +107,21 @@ const deletePatient = () => {
                                     <label for="school_postcode" class="block font-medium text-sm text-gray-700">Ort der Einrichtung</label>
                                     <input id="school_postcode" v-model="form.school_postcode" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 </div>
+                                <!-- Birth Date -->
+                                <div>
+                                    <label for="birth_date" class="block font-medium text-sm text-gray-700">Geburtsdatum</label>
+                                    <input id="birth_date" v-model="form.birth_date" type="date" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                                <!-- Therapy For -->
+                                <div>
+                                    <label for="therapy_for" class="block font-medium text-sm text-gray-700">In Behandlung seit</label>
+                                    <input id="therapy_for" v-model="form.therapy_for" type="date" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                                <!-- Therapy For -->
+                                <div>
+                                    <label for="therapy_till" class="block font-medium text-sm text-gray-700">Behandlungsende</label>
+                                    <input id="therapy_till" v-model="form.therapy_till" type="date" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
                             </div>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-3">
                                 <!-- Diagnoses -->
@@ -120,16 +136,7 @@ const deletePatient = () => {
                                         class="w-full border rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     ></MultiSelect>
                                 </div>
-                                <!-- Birth Date -->
-                                <div>
-                                    <label for="birth_date" class="block font-medium text-sm text-gray-700">Geburtsdatum</label>
-                                    <input id="birth_date" v-model="form.birth_date" type="date" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                </div>
-                                <!-- Therapy For -->
-                                <div>
-                                    <label for="therapy_for" class="block font-medium text-sm text-gray-700">In Behandlung seit</label>
-                                    <input id="therapy_for" v-model="form.therapy_for" type="date" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                </div>
+
                                 <!-- Address -->
                                 <div class="col-span-2">
                                     <label for="address" class="block font-medium text-sm text-gray-700">Adresse</label>

@@ -10,6 +10,7 @@ const form = useForm({
     address: '',
     birth_date: '',
     therapy_for: '',
+    therapy_till: '',
     information: '',
     phone_number: '',
     mothers_name: '',
@@ -85,13 +86,6 @@ const submit = () => {
                                     <label for="school_postcode" class="block font-medium text-sm text-gray-700">Ort der Einrichtung</label>
                                     <input id="school_postcode" v-model="form.school_postcode" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 </div>
-                            </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                                <!-- Address -->
-                                <div class="col-span-2">
-                                    <label for="address" class="block font-medium text-sm text-gray-700">Adresse</label>
-                                    <input id="address" v-model="form.address" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                </div>
                                 <!-- Birth Date -->
                                 <div>
                                     <label for="birth_date" class="block font-medium text-sm text-gray-700">Geburtsdatum</label>
@@ -102,6 +96,19 @@ const submit = () => {
                                     <label for="therapy_for" class="block font-medium text-sm text-gray-700">In Behandlung seit</label>
                                     <input id="therapy_for" v-model="form.therapy_for" type="date" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 </div>
+                                <!-- Therapy For -->
+                                <div>
+                                    <label for="therapy_till" class="block font-medium text-sm text-gray-700">Behandlungsende</label>
+                                    <input id="therapy_till" v-model="form.therapy_till" type="date" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                                <!-- Address -->
+                                <div class="col-span-2">
+                                    <label for="address" class="block font-medium text-sm text-gray-700">Adresse</label>
+                                    <input id="address" v-model="form.address" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                </div>
+
 
                                 <!-- Mother's Name -->
                                 <div>

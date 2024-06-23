@@ -16,6 +16,7 @@ class Patient extends Model
         'address',
         'birth_date',
         'therapy_for',
+        'therapy_till',
         'information',
         'phone_number',
         'mothers_name',
