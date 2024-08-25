@@ -22,6 +22,7 @@
         "@mdi/js": "^7.4.47",
         "laravel-file-explorer": "^1.0.3",
         "primevue": "^3.52.0",
+        "quill": "^1.3.7",
         "vue-file-agent": "^1.7.3",
         "vue-file-manager": "^0.1.1",
         "vue-multiselect": "^3.0.0",
