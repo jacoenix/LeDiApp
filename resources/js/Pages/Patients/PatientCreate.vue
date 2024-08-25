@@ -93,7 +93,7 @@ const submit = () => {
                                 </div>
                                 <!-- Therapy For -->
                                 <div>
-                                    <label for="therapy_for" class="block font-medium text-sm text-gray-700">In Behandlung seit</label>
+                                    <label for="therapy_for" class="block font-medium text-sm text-gray-700">Behandlungsbeginn</label>
                                     <input id="therapy_for" v-model="form.therapy_for" type="date" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 </div>
                                 <!-- Therapy For -->
