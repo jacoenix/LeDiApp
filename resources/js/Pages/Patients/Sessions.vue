@@ -133,7 +133,7 @@
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useForm, usePage } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { mdiDelete, mdiEye, mdiFilePdfBox } from "@mdi/js";
