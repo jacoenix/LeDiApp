@@ -21,15 +21,21 @@
                                     <p><strong>Datum:</strong> {{ session.session_date }}</p>
                                 </div>
                                 <div class="flex space-x-2">
-                                    <button @click="openDetailModal(session)" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700"><svg class="w-6 h-6" :viewBox="'0 0 24 24'">
-                                        <path :d="mdiEye" fill="currentColor" />
-                                    </svg></button>
-                                    <button @click="exportSession(session.patient_id, session.id)" class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-700"><svg class="w-6 h-6" :viewBox="'0 0 24 24'">
-                                        <path :d="mdiFilePdfBox" fill="currentColor" />
-                                    </svg></button>
-                                    <button @click="deleteSession(session.patient_id, session.id)" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700"><svg class="w-6 h-6" :viewBox="'0 0 24 24'">
-                                        <path :d="mdiDelete" fill="currentColor" />
-                                    </svg></button>
+                                    <button @click="openDetailModal(session)" class="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-700">
+                                        <svg class="w-6 h-6" :viewBox="'0 0 24 24'">
+                                            <path :d="mdiEye" fill="currentColor" />
+                                        </svg>
+                                    </button>
+                                    <button @click="exportSession(session.patient_id, session.id)" class="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-700">
+                                        <svg class="w-6 h-6" :viewBox="'0 0 24 24'">
+                                            <path :d="mdiFilePdfBox" fill="currentColor" />
+                                        </svg>
+                                    </button>
+                                    <button @click="deleteSession(session.patient_id, session.id)" class="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700">
+                                        <svg class="w-6 h-6" :viewBox="'0 0 24 24'">
+                                            <path :d="mdiDelete" fill="currentColor" />
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -37,6 +43,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal für Neue Sitzung erstellen -->
         <div v-if="showCreateModal" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
                 <h3 class="text-xl mb-4">Neue Sitzung erstellen</h3>
@@ -67,7 +75,7 @@
                         </div>
                         <div class="col-span-1 md:col-span-2">
                             <label for="description" class="block font-medium text-sm text-gray-700">Beschreibung*</label>
-                            <textarea id="description" v-model="form.description" rows="5" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                            <Editor id="description" v-model="form.description" rows="5" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                         </div>
                     </div>
                     <div class="mt-6 flex justify-end">
@@ -77,6 +85,8 @@
                 </form>
             </div>
         </div>
+
+        <!-- Modal für Sitzung anzeigen -->
         <div v-if="showDetailModal" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
                 <h3 class="text-xl mb-4">Sitzung anzeigen</h3>
@@ -103,7 +113,7 @@
                     </div>
                     <div class="col-span-1 md:col-span-2">
                         <label for="description" class="block font-medium text-sm text-gray-700">Beschreibung*</label>
-                        <textarea v-model="detailSession.description" rows="5" disabled class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                        <editor id="edit_description" readonly v-model="detailSession.description" rows="5" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                     </div>
                 </div>
                 <div class="mt-6 flex justify-end">
@@ -120,6 +130,8 @@ import { Head, useForm, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout2.vue";
 import {mdiDelete, mdiEye, mdiFilePdfBox} from "@mdi/js";
+
+import Editor from 'primevue/editor';
 
 const { props } = usePage();
 const patients = ref(props.patients || []);

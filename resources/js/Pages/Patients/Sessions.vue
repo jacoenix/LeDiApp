@@ -13,6 +13,7 @@
                                 <input id="end_date" type="date" v-model="endDate" @change="filterSessions" class="border rounded p-2">
                             </div>
                             <div>
+                                <button @click="openCreateModal" class="bg-blue-500 text-white p-2 rounded">Neue Sitzung erstellen</button>
                                 <button @click="deleteAllSessions" class="ml-4 bg-red-500 text-white p-2 rounded">Alle Sitzungen löschen</button>
                             </div>
                         </div>
@@ -49,6 +50,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal zum Bearbeiten der Sitzung -->
         <div v-if="showEditModal" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
             <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
                 <h3 class="text-xl mb-4">Sitzung bearbeiten</h3>
@@ -74,7 +77,7 @@
                         </div>
                         <div class="col-span-2">
                             <label for="edit_description" class="block font-medium text-sm text-gray-700">Beschreibung</label>
-                            <textarea id="edit_description" v-model="selectedSession.description" rows="5" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                            <Editor id="edit_description" v-model="selectedSession.description" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                         </div>
                     </div>
                     <div class="mt-6 flex justify-end">
@@ -84,25 +87,77 @@
                 </form>
             </div>
         </div>
+
+        <!-- Modal zum Erstellen einer neuen Sitzung -->
+        <div v-if="showCreateModal" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-1/2">
+                <h3 class="text-xl mb-4">Neue Sitzung erstellen</h3>
+                <form @submit.prevent="submit">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="patient_id" class="block font-medium text-sm text-gray-700">Klient*</label>
+                            <select id="patient_id" v-model="form.patient_id" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" disabled>
+                                <option :value="selectedPatient.id">{{ selectedPatient.last_name }} {{ selectedPatient.first_name }}</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="session_date" class="block font-medium text-sm text-gray-700">Datum*</label>
+                            <input id="session_date" v-model="form.session_date" type="date" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label for="start_time" class="block font-medium text-sm text-gray-700">Startzeit*</label>
+                            <input id="start_time" v-model="form.start_time" type="time" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div>
+                            <label for="end_time" class="block font-medium text-sm text-gray-700">Endzeit*</label>
+                            <input id="end_time" v-model="form.end_time" type="time" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="col-span-1 md:col-span-2">
+                            <label for="title" class="block font-medium text-sm text-gray-700">Titel*</label>
+                            <input id="title" v-model="form.title" type="text" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="col-span-1 md:col-span-2">
+                            <label for="description" class="block font-medium text-sm text-gray-700">Beschreibung*</label>
+                            <Editor id="description" v-model="form.description" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end">
+                        <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700">Erstellen</button>
+                        <button @click="closeCreateModal" class="ml-2 bg-gray-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-gray-700">Schließen</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </AuthenticatedLayout>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
-import {Head, usePage} from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { mdiDelete, mdiEye, mdiFilePdfBox } from "@mdi/js";
+import Editor from 'primevue/editor';
 
 const { props } = usePage();
 const patientsessions = ref(props.patientsessions || []);
+const selectedPatient = ref(props.selectedPatient);
 const filterDate = ref('');
 const startDate = ref('');
 const endDate = ref('');
 const searchQuery = ref('');
 const showEditModal = ref(false);
+const showCreateModal = ref(false);
 const selectedSession = ref(null);
-const selectedPatient = ref(props.selectedPatient);
+
+const form = useForm({
+    patient_id: selectedPatient.value.id,
+    session_date: '',
+    start_time: '',
+    end_time: '',
+    title: '',
+    description: '',
+});
 
 const filteredSessions = computed(() => {
     return patientsessions.value.filter(session => {
@@ -152,6 +207,26 @@ const openEditModal = async (session) => {
 
 const closeEditModal = () => {
     showEditModal.value = false;
+};
+
+const submit = () => {
+    form.post(route('sessions.store'), {
+        onSuccess: () => {
+            form.reset();
+            closeCreateModal();
+            window.location.href = route('sessions.index', { patient: selectedPatient.value.id });
+        },
+    });
+};
+
+const openCreateModal = () => {
+    form.reset();
+    form.patient_id = selectedPatient.value.id;
+    showCreateModal.value = true;
+};
+
+const closeCreateModal = () => {
+    showCreateModal.value = false;
 };
 
 const updateSession = async () => {

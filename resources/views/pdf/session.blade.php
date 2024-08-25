@@ -63,7 +63,7 @@
         {{ $session->title }}
     </div>
     <p><strong>Inhalt:</strong></p>
-    <p>{{ $session->description }}</p>
+    <p>{!! $session->description !!}</p>
 </div>
 </body>
 </html>
