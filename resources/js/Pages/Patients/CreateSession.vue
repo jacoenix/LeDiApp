@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-span-1 md:col-span-2">
                             <label for="description" class="block font-medium text-sm text-gray-700">Beschreibung*</label>
-                            <Editor id="description" v-model="form.description" rows="5" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                            <Editor id="description" editorStyle="height: 225px" v-model="form.description" rows="5" class="mt-1 block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                         </div>
                     </div>
                     <div class="mt-6 flex justify-end">
