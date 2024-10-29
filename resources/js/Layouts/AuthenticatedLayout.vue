@@ -17,6 +17,7 @@
                         </div>
                         <div class="hidden space-x-6 md:space-x-8 lg:space-x-12 sm:-my-px sm:ml-4 md:ml-10 lg:ml-24 sm:flex">
                             <NavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-lg">Dashboard</NavLink>
+                            <NavLink :href="route('notes')" :active="route().current('notes')" class="text-lg">Notizen</NavLink>
                             <NavLink v-if="selectedPatient" :href="route('patient.info', selectedPatient.id)" :active="route().current('patient.info')" class="text-lg">Informationen</NavLink>
                             <NavLink v-if="selectedPatient" :href="route('documents.index', selectedPatient.id)" :active="route().current('documents.index')" class="text-lg">Dokumentenverwaltung</NavLink>
                             <NavLink v-if="selectedPatient" :href="route('sessions.index', selectedPatient.id)" :active="route().current('sessions.index')" class="text-lg">Sitzungen</NavLink>
@@ -42,6 +43,7 @@
             <div :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }" class="sm:hidden">
                 <div class="pt-2 pb-3 space-y-1">
                     <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')" class="text-lg">Dashboard</ResponsiveNavLink>
+                    <ResponsiveNavLink :href="route('notes')" :active="route().current('notes')" class="text-lg">Notizen</ResponsiveNavLink>
                     <ResponsiveNavLink v-if="selectedPatient" :href="route('patient.info', selectedPatient.id)" :active="route().current('patient.info')" class="text-lg">Informationen</ResponsiveNavLink>
                     <ResponsiveNavLink v-if="selectedPatient" :href="route('documents.index', selectedPatient.id)" :active="route().current('documents.index')" class="text-lg">Dokumentenverwaltung</ResponsiveNavLink>
                     <ResponsiveNavLink v-if="selectedPatient" :href="route('sessions.index', selectedPatient.id)" :active="route().current('sessions.index')" class="text-lg">Sitzungen</ResponsiveNavLink>

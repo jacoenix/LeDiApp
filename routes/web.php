@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DiagnosisController;
+use App\Http\Controllers\NoteController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PatientSessionController;
 use App\Http\Controllers\ProfileController;
@@ -58,6 +59,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('diagnoses', DiagnosisController::class);
 
     Route::get('/patients/{patient}/export', [PatientController::class, 'export'])->name('patient.export');
+
+    // In routes/web.php
+    Route::get('/note', [NoteController::class, 'show'])->name('notes');   // Route zum Anzeigen der Notiz
+    Route::post('/note', [NoteController::class, 'store']); // Route zum Speichern/Aktualisieren der Notiz
 
 
 
